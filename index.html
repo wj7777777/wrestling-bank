@@ -14,6 +14,10 @@
     --earn-dark: #04A87D;
     --spend: #FF6B6B;
     --spend-dark: #E85555;
+    --praise: #FFD166;
+    --praise-dark: #E6B800;
+    --wrestling: #3A86FF;
+    --wrestling-dark: #2563EB;
     --card: #FFFFFF;
     --text: #1A1A2E;
     --shadow: 0 4px 0 rgba(0,0,0,0.12);
@@ -61,6 +65,7 @@
     50% { transform: translateY(-7px) rotate(4deg); }
   }
 
+  /* AUTH */
   .auth-bar {
     margin: 32px 16px 0;
     background: white; border-radius: var(--radius);
@@ -85,31 +90,34 @@
   .auth-btn.login { background: var(--primary); color: white; }
   .auth-btn.logout { background: #F0F0F0; color: rgba(0,0,0,0.5); }
 
+  /* BALANCE CARDS */
+  .balance-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin: 14px 16px 0;
+  }
   .balance-card {
-    margin: 14px 16px 0;
     background: white; border-radius: var(--radius);
-    padding: 22px 20px; box-shadow: var(--shadow);
-    display: flex; align-items: center; gap: 16px;
+    padding: 16px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 6px;
   }
-  .balance-icon {
-    width: 64px; height: 64px;
-    background: linear-gradient(135deg, #3A86FF, #6EC6FF);
-    border-radius: 18px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 34px; flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(58,134,255,0.35);
+  .balance-card .bc-icon {
+    font-size: 28px;
   }
-  .balance-label { font-size: 12px; font-weight: 700; color: rgba(0,0,0,0.38); letter-spacing: 0.5px; }
-  .balance-value {
-    font-family: 'Gaegu', cursive; font-size: 52px; font-weight: 700;
-    color: var(--primary); line-height: 1;
+  .balance-card .bc-label {
+    font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.38); letter-spacing: 0.3px;
   }
-  .balance-value.pop { animation: pop 0.4s ease; }
+  .balance-card .bc-value {
+    font-family: 'Gaegu', cursive; font-size: 38px; font-weight: 700; line-height: 1;
+  }
+  .balance-card .bc-value.pop { animation: pop 0.4s ease; }
+  .balance-card.praise .bc-value { color: var(--praise-dark); }
+  .balance-card.wrestling .bc-value { color: var(--wrestling); }
+  .balance-card .bc-unit { font-size: 13px; font-weight: 700; color: rgba(0,0,0,0.35); }
   @keyframes pop {
-    0% { transform: scale(1); } 40% { transform: scale(1.2); } 100% { transform: scale(1); }
+    0% { transform: scale(1); } 40% { transform: scale(1.18); } 100% { transform: scale(1); }
   }
-  .balance-unit { font-size: 16px; font-weight: 700; color: rgba(0,0,0,0.4); }
 
+  /* ACTION BUTTONS */
   .action-row {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 10px; margin: 14px 16px 0;
@@ -126,6 +134,7 @@
   .action-btn.spend { background: var(--spend); color: white; box-shadow: 0 5px 0 var(--spend-dark); }
   .action-btn:not(.locked):active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,0.2) !important; }
 
+  /* SECTION */
   .section { margin: 20px 16px 0; }
   .section-title {
     font-size: 15px; font-weight: 900;
@@ -133,6 +142,7 @@
   }
   .task-grid { display: flex; flex-direction: column; gap: 8px; }
 
+  /* TASK / REWARD ITEMS */
   .task-item, .reward-item {
     background: var(--card); border-radius: 14px;
     padding: 14px 16px;
@@ -148,7 +158,10 @@
   .task-emoji { font-size: 28px; }
   .item-info { flex: 1; }
   .item-name { font-size: 15px; font-weight: 700; }
-  .task-mins { font-family: 'Gaegu', cursive; font-size: 22px; font-weight: 700; color: var(--earn-dark); white-space: nowrap; }
+  .item-sub { font-size: 11px; margin-top: 2px; }
+  .task-mins { font-family: 'Gaegu', cursive; font-size: 22px; font-weight: 700; white-space: nowrap; }
+  .task-mins.praise { color: var(--praise-dark); }
+  .task-mins.wrestling { color: var(--wrestling); }
   .reward-mins { font-family: 'Gaegu', cursive; font-size: 22px; font-weight: 700; color: var(--spend); white-space: nowrap; }
 
   .add-task-btn, .add-reward-btn {
@@ -161,6 +174,7 @@
   .add-reward-btn { border: 2px dashed #FFCECE; }
   .add-task-btn.locked, .add-reward-btn.locked { opacity: 0.3; cursor: not-allowed; }
 
+  /* HISTORY */
   .history-list { display: flex; flex-direction: column; gap: 8px; }
   .history-item {
     background: var(--card); border-radius: 14px;
@@ -173,11 +187,12 @@
   .h-info { flex: 1; }
   .h-title { font-size: 14px; font-weight: 700; }
   .h-meta { font-size: 11px; color: rgba(0,0,0,0.35); margin-top: 2px; }
-  .h-pts { font-family: 'Gaegu', cursive; font-size: 20px; font-weight: 700; white-space: nowrap; }
+  .h-pts { font-family: 'Gaegu', cursive; font-size: 18px; font-weight: 700; white-space: nowrap; text-align: right; }
   .h-pts.earn { color: var(--earn-dark); }
   .h-pts.spend { color: var(--spend); }
   .empty { text-align: center; padding: 24px; color: rgba(0,0,0,0.28); font-size: 14px; }
 
+  /* OVERLAY / SHEET */
   .overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.4);
@@ -210,6 +225,7 @@
   .m-btn.go:active { transform: translateY(3px); box-shadow: none; }
   .m-btn.go.red { background: var(--spend); box-shadow: 0 4px 0 var(--spend-dark); }
 
+  /* MIN PICKER */
   .min-picker {
     display: flex; align-items: center; justify-content: center;
     gap: 16px; margin: 12px 0 8px;
@@ -226,8 +242,43 @@
     font-family: 'Gaegu', cursive; font-size: 56px; font-weight: 700;
     color: var(--primary); min-width: 90px; text-align: center; line-height: 1;
   }
-  .min-label { font-size: 13px; color: rgba(0,0,0,0.4); text-align: center; margin-bottom: 16px; }
+  .min-label { font-size: 13px; color: rgba(0,0,0,0.4); text-align: center; margin-bottom: 10px; }
 
+  /* POINT TYPE TOGGLE */
+  .type-toggle {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+  .type-btn {
+    flex: 1; padding: 10px; border: 2px solid #E0E8F8; border-radius: 12px;
+    background: #F8FAFF; font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s; color: rgba(0,0,0,0.4);
+  }
+  .type-btn.sel-praise { border-color: var(--praise-dark); background: #FFF8E1; color: var(--praise-dark); }
+  .type-btn.sel-wrestling { border-color: var(--wrestling); background: #EEF4FF; color: var(--wrestling); }
+
+  /* TOGGLE SWITCH */
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; border-top: 1px solid #F0F0F0; margin-top: 4px;
+  }
+  .toggle-label { font-size: 14px; font-weight: 700; }
+  .toggle-sub { font-size: 11px; color: rgba(0,0,0,0.38); margin-top: 2px; }
+  .switch { position: relative; width: 44px; height: 24px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; inset: 0; background: #DDD; border-radius: 24px;
+    cursor: pointer; transition: 0.2s;
+  }
+  .slider::before {
+    content: ''; position: absolute;
+    width: 18px; height: 18px; left: 3px; top: 3px;
+    background: white; border-radius: 50%; transition: 0.2s;
+  }
+  input:checked + .slider { background: var(--wrestling); }
+  input:checked + .slider::before { transform: translateX(20px); }
+
+  /* LOADING */
   .loading {
     position: fixed; inset: 0; background: var(--bg);
     display: flex; align-items: center; justify-content: center;
@@ -255,6 +306,7 @@
   <div class="header-emoji">💪</div>
 </div>
 
+<!-- 로그인 -->
 <div class="auth-bar">
   <div class="auth-avatar" id="authAvatar">👤</div>
   <div class="auth-info">
@@ -264,17 +316,27 @@
   <button class="auth-btn login" id="authBtn" onclick="toggleAuth()">로그인</button>
 </div>
 
-<div class="balance-card">
-  <div class="balance-icon">⏱️</div>
-  <div>
-    <div class="balance-label">남은 레슬링 시간</div>
+<!-- 잔액 2개 -->
+<div class="balance-row">
+  <div class="balance-card praise">
+    <div class="bc-icon">⭐</div>
+    <div class="bc-label">칭찬 포인트</div>
     <div>
-      <span class="balance-value" id="totalMins">0</span>
-      <span class="balance-unit"> 분</span>
+      <span class="bc-value" id="praiseMins">0</span>
+      <span class="bc-unit">분</span>
+    </div>
+  </div>
+  <div class="balance-card wrestling">
+    <div class="bc-icon">🤼</div>
+    <div class="bc-label">레슬링 포인트</div>
+    <div>
+      <span class="bc-value" id="wrestlingMins">0</span>
+      <span class="bc-unit">분</span>
     </div>
   </div>
 </div>
 
+<!-- 적립 / 사용 -->
 <div class="action-row">
   <button class="action-btn earn locked" id="btnEarn" onclick="onEarnClick()">
     <span class="icon">📚</span>시간 적립
@@ -284,18 +346,21 @@
   </button>
 </div>
 
+<!-- 할일 -->
 <div class="section">
   <div class="section-title">📋 할일 (탭하면 적립)</div>
   <div class="task-grid" id="taskGrid"></div>
   <button class="add-task-btn locked" id="btnAddTask" onclick="onAddTaskClick()">+ 할일 추가하기</button>
 </div>
 
+<!-- 레슬링 메뉴 -->
 <div class="section">
   <div class="section-title">🤼 레슬링 메뉴 (탭하면 차감)</div>
   <div class="task-grid" id="rewardGrid"></div>
   <button class="add-reward-btn locked" id="btnAddReward" onclick="onAddRewardClick()">+ 레슬링 메뉴 추가하기</button>
 </div>
 
+<!-- 기록 -->
 <div class="section">
   <div class="section-title">🗓️ 기록</div>
   <div class="history-list" id="historyList"></div>
@@ -305,6 +370,10 @@
 <div class="overlay" id="earnSheet" onclick="closeSheet('earnSheet',event)">
   <div class="sheet">
     <div class="sheet-title">⏱️ 레슬링 시간 적립</div>
+    <div class="type-toggle">
+      <button class="type-btn sel-praise" id="earnTypePraise" onclick="setEarnType('praise')">⭐ 칭찬 포인트</button>
+      <button class="type-btn" id="earnTypeWrestling" onclick="setEarnType('wrestling')">🤼 레슬링 포인트</button>
+    </div>
     <p style="text-align:center;font-size:13px;color:rgba(0,0,0,0.4);margin-bottom:4px;">몇 분 적립할까요?</p>
     <div class="min-picker">
       <button class="min-btn" onclick="adjustEarn(-1)">－</button>
@@ -312,7 +381,7 @@
       <button class="min-btn" onclick="adjustEarn(1)">＋</button>
     </div>
     <div class="min-label" id="earnTaskLabel"></div>
-    <input class="m-input" id="earnReason" placeholder="사유 (예: 수학 숙제 다 함) — 선택">
+    <input class="m-input" id="earnReason" placeholder="사유 (선택)">
     <div class="m-row">
       <button class="m-btn cancel" onclick="closeSheet('earnSheet')">취소</button>
       <button class="m-btn go" onclick="confirmEarn()">적립!</button>
@@ -331,7 +400,7 @@
       <button class="min-btn" onclick="adjustSpend(1)" style="color:var(--spend)">＋</button>
     </div>
     <p id="spendWarn" style="text-align:center;font-size:13px;color:var(--spend);min-height:18px;margin-bottom:8px;"></p>
-    <input class="m-input" id="spendReason" placeholder="사유 (예: 방 청소 보상) — 선택">
+    <input class="m-input" id="spendReason" placeholder="사유 (선택)">
     <div class="m-row">
       <button class="m-btn cancel" onclick="closeSheet('spendSheet')">취소</button>
       <button class="m-btn go red" onclick="confirmSpend()">레슬링 스타트! 🔥</button>
@@ -343,6 +412,10 @@
 <div class="overlay" id="addTaskSheet" onclick="closeSheet('addTaskSheet',event)">
   <div class="sheet">
     <div class="sheet-title">📋 할일 추가</div>
+    <div class="type-toggle">
+      <button class="type-btn sel-praise" id="taskTypePraise" onclick="setTaskType('praise')">⭐ 칭찬 포인트</button>
+      <button class="type-btn" id="taskTypeWrestling" onclick="setTaskType('wrestling')">🤼 레슬링 포인트</button>
+    </div>
     <input class="m-input" id="taskEmoji" placeholder="이모지 (예: 📖)" maxlength="4">
     <input class="m-input" id="taskName" placeholder="할일 이름 (예: 수학 숙제)">
     <input class="m-input" type="number" id="taskMins" placeholder="적립 시간(분) (예: 10)">
@@ -360,7 +433,17 @@
     <input class="m-input" id="rewardEmoji" placeholder="이모지 (예: 🥊)" maxlength="4">
     <input class="m-input" id="rewardName" placeholder="메뉴 이름 (예: 자유 레슬링)">
     <input class="m-input" type="number" id="rewardMins" placeholder="차감 시간(분) (예: 10)">
-    <div class="m-row" style="margin-top:4px;">
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">🤼 레슬링 포인트 허용</div>
+        <div class="toggle-sub">끄면 칭찬 포인트만 사용 가능</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="rewardAllowWrestling" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="m-row" style="margin-top:12px;">
       <button class="m-btn cancel" onclick="closeSheet('addRewardSheet')">취소</button>
       <button class="m-btn go red" onclick="saveReward()">추가!</button>
     </div>
@@ -391,31 +474,36 @@ const HISTORY_COL = collection(db, 'bank', 'state', 'history');
 
 let currentUser = null;
 let state = {
-  mins: 0,
+  praise: 0,      // 칭찬 포인트 (분)
+  wrestling: 0,   // 레슬링 포인트 (분)
   tasks: [
-    { id: 1, emoji: '📖', name: '책 읽기', mins: 10 },
-    { id: 2, emoji: '✏️', name: '수학 숙제', mins: 15 },
-    { id: 3, emoji: '🧹', name: '방 청소', mins: 10 },
-    { id: 4, emoji: '🛒', name: '심부름', mins: 20 },
+    { id: 1, emoji: '📖', name: '책 읽기',  mins: 10, pointType: 'praise' },
+    { id: 2, emoji: '✏️', name: '수학 숙제', mins: 15, pointType: 'praise' },
+    { id: 3, emoji: '🧹', name: '방 청소',   mins: 10, pointType: 'praise' },
+    { id: 4, emoji: '🛒', name: '심부름',    mins: 20, pointType: 'praise' },
+    { id: 5, emoji: '🤼', name: '레슬링 연습', mins: 15, pointType: 'wrestling' },
   ],
   rewards: [
-    { id: 101, emoji: '🤼', name: '자유 레슬링', mins: 10 },
-    { id: 102, emoji: '🥊', name: '스파링', mins: 20 },
-    { id: 103, emoji: '🏆', name: '왕중왕전', mins: 30 },
+    { id: 101, emoji: '🤼', name: '자유 레슬링', mins: 10, allowWrestling: true },
+    { id: 102, emoji: '🥊', name: '스파링',      mins: 20, allowWrestling: true },
+    { id: 103, emoji: '🏆', name: '왕중왕전',    mins: 30, allowWrestling: true },
   ],
   nextId: 200,
 };
 let history = [];
-let earnMins = 10, earnTaskName = '', spendMins = 10;
+let earnMins = 10, earnTaskName = '', earnType = 'praise';
+let spendMins = 10;
+let newTaskType = 'praise';
 
-// ── Firestore 실시간 구독 ─────────────────────────
+// ── Firestore ─────────────────────────────────────
 onSnapshot(STATE_DOC, snap => {
   if (snap.exists()) {
     const d = snap.data();
-    state.mins    = d.mins    ?? state.mins;
-    state.tasks   = d.tasks   ?? state.tasks;
-    state.rewards = d.rewards ?? state.rewards;
-    state.nextId  = d.nextId  ?? state.nextId;
+    state.praise    = d.praise    ?? 0;
+    state.wrestling = d.wrestling ?? 0;
+    state.tasks     = d.tasks     ?? state.tasks;
+    state.rewards   = d.rewards   ?? state.rewards;
+    state.nextId    = d.nextId    ?? state.nextId;
   }
   render();
   document.getElementById('loading').classList.add('hide');
@@ -428,7 +516,8 @@ onSnapshot(query(HISTORY_COL, orderBy('ts','desc'), limit(30)), snap => {
 
 async function saveState() {
   await setDoc(STATE_DOC, {
-    mins: state.mins,
+    praise: state.praise,
+    wrestling: state.wrestling,
     tasks: state.tasks,
     rewards: state.rewards,
     nextId: state.nextId,
@@ -447,12 +536,8 @@ onAuthStateChanged(auth, user => {
 });
 
 window.toggleAuth = async () => {
-  if (currentUser) {
-    await signOut(auth);
-  } else {
-    try { await signInWithPopup(auth, new GoogleAuthProvider()); }
-    catch(e) { console.error(e); }
-  }
+  if (currentUser) { await signOut(auth); }
+  else { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch(e){} }
 };
 
 function updateAuthBar() {
@@ -461,9 +546,7 @@ function updateAuthBar() {
   const sub    = document.getElementById('authSub');
   const btn    = document.getElementById('authBtn');
   if (currentUser) {
-    avatar.innerHTML = currentUser.photoURL
-      ? `<img src="${currentUser.photoURL}">`
-      : '👤';
+    avatar.innerHTML = currentUser.photoURL ? `<img src="${currentUser.photoURL}">` : '👤';
     name.textContent = currentUser.displayName || '부모님';
     sub.textContent  = '적립 / 차감 가능해요 ✅';
     btn.textContent  = '로그아웃';
@@ -479,10 +562,8 @@ function updateAuthBar() {
 
 function updateLocks() {
   const locked = !currentUser;
-  document.getElementById('btnEarn').classList.toggle('locked', locked);
-  document.getElementById('btnSpend').classList.toggle('locked', locked);
-  document.getElementById('btnAddTask').classList.toggle('locked', locked);
-  document.getElementById('btnAddReward').classList.toggle('locked', locked);
+  ['btnEarn','btnSpend','btnAddTask','btnAddReward'].forEach(id =>
+    document.getElementById(id).classList.toggle('locked', locked));
   render();
 }
 
@@ -490,12 +571,16 @@ function requireLogin() {
   if (!currentUser) { alert('부모님이 로그인해야 사용할 수 있어요 😊'); return false; }
   return true;
 }
-
 function byName() { return currentUser?.displayName || ''; }
 
 // ── 렌더 ─────────────────────────────────────────
 function render() {
-  document.getElementById('totalMins').textContent = state.mins;
+  // 잔액
+  const pEl = document.getElementById('praiseMins');
+  const wEl = document.getElementById('wrestlingMins');
+  pEl.textContent = state.praise;
+  wEl.textContent = state.wrestling;
+
   const locked = !currentUser;
 
   // 할일
@@ -503,8 +588,13 @@ function render() {
   grid.innerHTML = state.tasks.map(t => `
     <div class="task-item${locked ? ' locked' : ''}" data-taskid="${t.id}">
       <span class="task-emoji">${t.emoji}</span>
-      <div class="item-info"><div class="item-name">${t.name}</div></div>
-      <div class="task-mins">+${t.mins}분</div>
+      <div class="item-info">
+        <div class="item-name">${t.name}</div>
+        <div class="item-sub" style="color:${t.pointType==='praise'?'var(--praise-dark)':'var(--wrestling)'}">
+          ${t.pointType === 'praise' ? '⭐ 칭찬 포인트' : '🤼 레슬링 포인트'}
+        </div>
+      </div>
+      <div class="task-mins ${t.pointType}">+${t.mins}분</div>
       ${!locked ? `<button data-delid="${t.id}" style="border:none;background:none;font-size:18px;color:rgba(0,0,0,0.22);cursor:pointer;padding:4px 8px;">✕</button>` : ''}
     </div>
   `).join('');
@@ -513,19 +603,27 @@ function render() {
     const del = e.target.closest('[data-delid]');
     if (del) { deleteTask(Number(del.dataset.delid)); return; }
     const row = e.target.closest('[data-taskid]');
-    if (row) openEarn(Number(row.dataset.taskid));
+    if (row) openEarnFromTask(Number(row.dataset.taskid));
   };
 
   // 레슬링 메뉴
   const rGrid = document.getElementById('rewardGrid');
-  rGrid.innerHTML = state.rewards.map(r => `
-    <div class="reward-item${locked ? ' locked' : state.mins < r.mins ? ' unaffordable' : ''}" data-rewardid="${r.id}">
+  rGrid.innerHTML = state.rewards.map(r => {
+    const total = state.praise + (r.allowWrestling ? state.wrestling : 0);
+    const unaffordable = total < r.mins;
+    return `
+    <div class="reward-item${locked ? ' locked' : unaffordable ? ' unaffordable' : ''}" data-rewardid="${r.id}">
       <span class="task-emoji">${r.emoji}</span>
-      <div class="item-info"><div class="item-name">${r.name}</div></div>
+      <div class="item-info">
+        <div class="item-name">${r.name}</div>
+        <div class="item-sub" style="color:rgba(0,0,0,0.38)">
+          ${r.allowWrestling ? '⭐🤼 모두 사용 가능' : '⭐ 칭찬 포인트만'}
+        </div>
+      </div>
       <div class="reward-mins">-${r.mins}분</div>
       ${!locked ? `<button data-delrewardid="${r.id}" style="border:none;background:none;font-size:18px;color:rgba(0,0,0,0.22);cursor:pointer;padding:4px 8px;">✕</button>` : ''}
     </div>
-  `).join('');
+  `}).join('');
   rGrid.onclick = e => {
     if (!requireLogin()) return;
     const del = e.target.closest('[data-delrewardid]');
@@ -550,7 +648,12 @@ function renderHistory() {
         <div class="h-title">${h.title}</div>
         <div class="h-meta">${h.date}${h.by ? ' · ' + h.by : ''}</div>
       </div>
-      <div class="h-pts ${h.type}">${h.type === 'earn' ? '+' : '-'}${h.mins}분</div>
+      <div class="h-pts ${h.type}">
+        ${h.type==='earn' ? '+' : '-'}${h.mins}분<br>
+        <span style="font-size:11px;font-family:'Noto Sans KR';font-weight:700;color:${h.pointType==='praise'?'var(--praise-dark)':'var(--wrestling)'}">
+          ${h.pointType === 'praise' ? '⭐칭찬' : '🤼레슬링'}
+        </span>
+      </div>
     </div>
   `).join('');
 }
@@ -558,16 +661,35 @@ function renderHistory() {
 // ── 적립 ─────────────────────────────────────────
 window.onEarnClick = () => { if (requireLogin()) openEarn(); };
 
-function openEarn(taskId) {
+function openEarn() {
   earnTaskName = '';
-  if (taskId !== undefined) {
-    const t = state.tasks.find(x => x.id === taskId);
-    if (t) { earnMins = t.mins; earnTaskName = t.name; }
-  } else { earnMins = 10; }
+  earnMins = 10;
+  setEarnType('praise');
   document.getElementById('earnMins').textContent = earnMins;
-  document.getElementById('earnTaskLabel').textContent = earnTaskName ? `"${earnTaskName}" 완료!` : '';
+  document.getElementById('earnTaskLabel').textContent = '';
+  document.getElementById('earnReason').value = '';
   document.getElementById('earnSheet').classList.add('show');
 }
+
+function openEarnFromTask(taskId) {
+  const t = state.tasks.find(x => x.id === taskId);
+  if (!t) return;
+  earnMins = t.mins;
+  earnTaskName = t.name;
+  setEarnType(t.pointType || 'praise');
+  document.getElementById('earnMins').textContent = earnMins;
+  document.getElementById('earnTaskLabel').textContent = `"${t.name}" 완료!`;
+  document.getElementById('earnReason').value = '';
+  document.getElementById('earnSheet').classList.add('show');
+}
+
+window.setEarnType = type => {
+  earnType = type;
+  document.getElementById('earnTypePraise').className =
+    'type-btn' + (type === 'praise' ? ' sel-praise' : '');
+  document.getElementById('earnTypeWrestling').className =
+    'type-btn' + (type === 'wrestling' ? ' sel-wrestling' : '');
+};
 
 window.adjustEarn = d => {
   earnMins = Math.max(1, earnMins + d);
@@ -577,64 +699,99 @@ window.adjustEarn = d => {
 window.confirmEarn = async () => {
   const label  = earnTaskName || '할일 완료';
   const reason = document.getElementById('earnReason').value.trim();
-  const title  = reason ? `${label} · ${reason} (${earnMins}분 적립)` : `${label} (${earnMins}분 적립)`;
-  state.mins += earnMins;
+  const title  = reason ? `${label} · ${reason}` : label;
+  if (earnType === 'praise') state.praise += earnMins;
+  else state.wrestling += earnMins;
   await saveState();
-  await pushHistory({ icon:'📚', title, date:nowStr(), mins:earnMins, type:'earn', by:byName() });
-  document.getElementById('earnReason').value = '';
-  animateBal(); closeSheet('earnSheet'); confetti();
+  await pushHistory({ icon: earnType==='praise'?'⭐':'🤼', title, date:nowStr(), mins:earnMins, type:'earn', pointType:earnType, by:byName() });
+  animateBal(earnType); closeSheet('earnSheet'); confetti();
 };
 
 // ── 차감 (직접) ───────────────────────────────────
 window.onSpendClick = () => {
   if (!requireLogin()) return;
-  spendMins = Math.min(10, Math.max(1, state.mins));
+  spendMins = Math.min(10, Math.max(1, state.praise + state.wrestling));
   document.getElementById('spendMins').textContent = spendMins;
   document.getElementById('spendWarn').textContent = '';
+  document.getElementById('spendReason').value = '';
   document.getElementById('spendSheet').classList.add('show');
 };
 
 window.adjustSpend = d => {
   spendMins = Math.max(1, spendMins + d);
-  document.getElementById('spendMins').textContent = spendMins;
+  const total = state.praise + state.wrestling;
   document.getElementById('spendWarn').textContent =
-    spendMins > state.mins ? `잔액 부족! (${state.mins}분 남음)` : '';
+    spendMins > total ? `잔액 부족! (총 ${total}분 남음)` : '';
 };
 
 window.confirmSpend = async () => {
-  if (spendMins > state.mins) { alert(`시간이 부족해요! ${state.mins}분밖에 없어요 😢`); return; }
+  const total = state.praise + state.wrestling;
+  if (spendMins > total) { alert(`시간이 부족해요! ${total}분밖에 없어요 😢`); return; }
   const reason = document.getElementById('spendReason').value.trim();
   const title  = reason ? `레슬링 ${spendMins}분 · ${reason}` : `아빠랑 레슬링 ${spendMins}분!`;
-  state.mins -= spendMins;
+  // 칭찬 우선 차감
+  const { fromPraise, fromWrestling } = deduct(spendMins, true);
   await saveState();
-  await pushHistory({ icon:'🤼', title, date:nowStr(), mins:spendMins, type:'spend', by:byName() });
-  document.getElementById('spendReason').value = '';
-  animateBal(); closeSheet('spendSheet');
+  await pushHistory({ icon:'🤼', title, date:nowStr(), mins:spendMins, type:'spend', pointType:'mixed', fromPraise, fromWrestling, by:byName() });
+  animateBal('praise'); closeSheet('spendSheet');
 };
 
 // ── 레슬링 메뉴 탭 ────────────────────────────────
 async function tapReward(id) {
   const r = state.rewards.find(x => x.id === id);
   if (!r) return;
-  if (state.mins < r.mins) { alert(`시간이 부족해요! ${r.mins}분 필요한데 ${state.mins}분밖에 없어요 😢`); return; }
-  state.mins -= r.mins;
+  const total = state.praise + (r.allowWrestling ? state.wrestling : 0);
+  if (total < r.mins) {
+    const msg = r.allowWrestling
+      ? `시간이 부족해요! ${r.mins}분 필요한데 ${total}분밖에 없어요 😢`
+      : `칭찬 포인트가 부족해요! ${r.mins}분 필요한데 ${state.praise}분밖에 없어요 😢`;
+    alert(msg); return;
+  }
+  const { fromPraise, fromWrestling } = deduct(r.mins, r.allowWrestling);
   await saveState();
-  await pushHistory({ icon:r.emoji, title:`${r.name} ${r.mins}분!`, date:nowStr(), mins:r.mins, type:'spend', by:byName() });
-  animateBal();
+  await pushHistory({ icon:r.emoji, title:`${r.name} ${r.mins}분!`, date:nowStr(), mins:r.mins, type:'spend', pointType: r.allowWrestling?'mixed':'praise', fromPraise, fromWrestling, by:byName() });
+  animateBal('praise');
+}
+
+// 칭찬 우선 차감 헬퍼
+function deduct(mins, allowWrestling) {
+  let fromPraise = 0, fromWrestling = 0;
+  const usePraise = Math.min(state.praise, mins);
+  fromPraise = usePraise;
+  state.praise -= usePraise;
+  const remain = mins - usePraise;
+  if (remain > 0 && allowWrestling) {
+    fromWrestling = remain;
+    state.wrestling -= remain;
+  }
+  return { fromPraise, fromWrestling };
 }
 
 // ── 할일 CRUD ─────────────────────────────────────
-window.onAddTaskClick = () => { if (requireLogin()) document.getElementById('addTaskSheet').classList.add('show'); };
+window.setTaskType = type => {
+  newTaskType = type;
+  document.getElementById('taskTypePraise').className =
+    'type-btn' + (type === 'praise' ? ' sel-praise' : '');
+  document.getElementById('taskTypeWrestling').className =
+    'type-btn' + (type === 'wrestling' ? ' sel-wrestling' : '');
+};
+
+window.onAddTaskClick = () => {
+  if (!requireLogin()) return;
+  newTaskType = 'praise';
+  setTaskType('praise');
+  ['taskEmoji','taskName','taskMins'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('addTaskSheet').classList.add('show');
+};
 
 window.saveTask = async () => {
   const emoji = document.getElementById('taskEmoji').value.trim() || '✅';
   const name  = document.getElementById('taskName').value.trim();
   const mins  = parseInt(document.getElementById('taskMins').value);
   if (!name || !mins) { alert('이름과 시간을 입력해주세요!'); return; }
-  state.tasks.push({ id: state.nextId++, emoji, name, mins });
+  state.tasks.push({ id: state.nextId++, emoji, name, mins, pointType: newTaskType });
   await saveState();
   closeSheet('addTaskSheet');
-  ['taskEmoji','taskName','taskMins'].forEach(id => document.getElementById(id).value = '');
 };
 
 async function deleteTask(id) {
@@ -643,17 +800,22 @@ async function deleteTask(id) {
 }
 
 // ── 레슬링 메뉴 CRUD ──────────────────────────────
-window.onAddRewardClick = () => { if (requireLogin()) document.getElementById('addRewardSheet').classList.add('show'); };
+window.onAddRewardClick = () => {
+  if (!requireLogin()) return;
+  ['rewardEmoji','rewardName','rewardMins'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('rewardAllowWrestling').checked = true;
+  document.getElementById('addRewardSheet').classList.add('show');
+};
 
 window.saveReward = async () => {
-  const emoji = document.getElementById('rewardEmoji').value.trim() || '🤼';
-  const name  = document.getElementById('rewardName').value.trim();
-  const mins  = parseInt(document.getElementById('rewardMins').value);
+  const emoji          = document.getElementById('rewardEmoji').value.trim() || '🤼';
+  const name           = document.getElementById('rewardName').value.trim();
+  const mins           = parseInt(document.getElementById('rewardMins').value);
+  const allowWrestling = document.getElementById('rewardAllowWrestling').checked;
   if (!name || !mins) { alert('이름과 시간을 입력해주세요!'); return; }
-  state.rewards.push({ id: state.nextId++, emoji, name, mins });
+  state.rewards.push({ id: state.nextId++, emoji, name, mins, allowWrestling });
   await saveState();
   closeSheet('addRewardSheet');
-  ['rewardEmoji','rewardName','rewardMins'].forEach(id => document.getElementById(id).value = '');
 };
 
 async function deleteReward(id) {
@@ -667,8 +829,9 @@ window.closeSheet = (id, e) => {
   document.getElementById(id).classList.remove('show');
 };
 
-function animateBal() {
-  const el = document.getElementById('totalMins');
+function animateBal(type) {
+  const id = type === 'wrestling' ? 'wrestlingMins' : 'praiseMins';
+  const el = document.getElementById(id);
   el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
 }
 
@@ -679,7 +842,7 @@ function nowStr() {
 
 function confetti() {
   const wrap = document.getElementById('confettiWrap');
-  const colors = ['#3A86FF','#FFD166','#06D6A0','#FF6B6B','#B388FF','#69F0AE'];
+  const colors = ['#FFD166','#06D6A0','#3A86FF','#FF6B6B','#B388FF'];
   for (let i = 0; i < 35; i++) {
     const p = document.createElement('div');
     p.className = 'cp';
