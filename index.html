@@ -312,6 +312,7 @@
       <button class="min-btn" onclick="adjustEarn(1)">＋</button>
     </div>
     <div class="min-label" id="earnTaskLabel"></div>
+    <input class="m-input" id="earnReason" placeholder="사유 (예: 수학 숙제 다 함) — 선택">
     <div class="m-row">
       <button class="m-btn cancel" onclick="closeSheet('earnSheet')">취소</button>
       <button class="m-btn go" onclick="confirmEarn()">적립!</button>
@@ -329,7 +330,8 @@
       <div class="min-display" id="spendMins" style="color:var(--spend)">10</div>
       <button class="min-btn" onclick="adjustSpend(1)" style="color:var(--spend)">＋</button>
     </div>
-    <p id="spendWarn" style="text-align:center;font-size:13px;color:var(--spend);min-height:18px;margin-bottom:16px;"></p>
+    <p id="spendWarn" style="text-align:center;font-size:13px;color:var(--spend);min-height:18px;margin-bottom:8px;"></p>
+    <input class="m-input" id="spendReason" placeholder="사유 (예: 방 청소 보상) — 선택">
     <div class="m-row">
       <button class="m-btn cancel" onclick="closeSheet('spendSheet')">취소</button>
       <button class="m-btn go red" onclick="confirmSpend()">레슬링 스타트! 🔥</button>
@@ -573,10 +575,13 @@ window.adjustEarn = d => {
 };
 
 window.confirmEarn = async () => {
-  const label = earnTaskName || '할일 완료';
+  const label  = earnTaskName || '할일 완료';
+  const reason = document.getElementById('earnReason').value.trim();
+  const title  = reason ? `${label} · ${reason} (${earnMins}분 적립)` : `${label} (${earnMins}분 적립)`;
   state.mins += earnMins;
   await saveState();
-  await pushHistory({ icon:'📚', title:`${label} (${earnMins}분 적립)`, date:nowStr(), mins:earnMins, type:'earn', by:byName() });
+  await pushHistory({ icon:'📚', title, date:nowStr(), mins:earnMins, type:'earn', by:byName() });
+  document.getElementById('earnReason').value = '';
   animateBal(); closeSheet('earnSheet'); confetti();
 };
 
@@ -598,9 +603,12 @@ window.adjustSpend = d => {
 
 window.confirmSpend = async () => {
   if (spendMins > state.mins) { alert(`시간이 부족해요! ${state.mins}분밖에 없어요 😢`); return; }
+  const reason = document.getElementById('spendReason').value.trim();
+  const title  = reason ? `레슬링 ${spendMins}분 · ${reason}` : `아빠랑 레슬링 ${spendMins}분!`;
   state.mins -= spendMins;
   await saveState();
-  await pushHistory({ icon:'🤼', title:`아빠랑 레슬링 ${spendMins}분!`, date:nowStr(), mins:spendMins, type:'spend', by:byName() });
+  await pushHistory({ icon:'🤼', title, date:nowStr(), mins:spendMins, type:'spend', by:byName() });
+  document.getElementById('spendReason').value = '';
   animateBal(); closeSheet('spendSheet');
 };
 
