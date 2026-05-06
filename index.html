@@ -456,7 +456,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, query, orderBy, limit, serverTimestamp }
+import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc, query, orderBy, limit, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const app = initializeApp({
@@ -641,6 +641,7 @@ function renderHistory() {
     hl.innerHTML = '<div class="empty">아직 기록이 없어요! 숙제부터 해볼까요? 📖</div>';
     return;
   }
+  const locked = !currentUser;
   hl.innerHTML = history.map(h => `
     <div class="history-item">
       <span class="h-icon">${h.icon}</span>
@@ -651,11 +652,19 @@ function renderHistory() {
       <div class="h-pts ${h.type}">
         ${h.type==='earn' ? '+' : '-'}${h.mins}분<br>
         <span style="font-size:11px;font-family:'Noto Sans KR';font-weight:700;color:${h.pointType==='praise'?'var(--praise-dark)':'var(--wrestling)'}">
-          ${h.pointType === 'praise' ? '⭐칭찬' : '🤼레슬링'}
+          ${h.pointType === 'praise' ? '⭐칭찬' : h.pointType === 'wrestling' ? '🤼레슬링' : '⭐🤼혼합'}
         </span>
       </div>
+      ${!locked ? `<button data-cancelid="${h.id}" data-h='${JSON.stringify({type:h.type,mins:h.mins,pointType:h.pointType,fromPraise:h.fromPraise||0,fromWrestling:h.fromWrestling||0})}'
+        style="border:none;background:none;font-size:16px;color:rgba(0,0,0,0.2);cursor:pointer;padding:4px 6px;flex-shrink:0;align-self:center;">✕</button>` : ''}
     </div>
   `).join('');
+
+  hl.onclick = e => {
+    const btn = e.target.closest('[data-cancelid]');
+    if (!btn) return;
+    cancelHistory(btn.dataset.cancelid, JSON.parse(btn.dataset.h));
+  };
 }
 
 // ── 적립 ─────────────────────────────────────────
@@ -765,6 +774,26 @@ function deduct(mins, allowWrestling) {
     state.wrestling -= remain;
   }
   return { fromPraise, fromWrestling };
+}
+
+async function cancelHistory(id, h) {
+  if (!requireLogin()) return;
+  // 포인트 원복
+  if (h.type === 'earn') {
+    if (h.pointType === 'praise') state.praise = Math.max(0, state.praise - h.mins);
+    else state.wrestling = Math.max(0, state.wrestling - h.mins);
+  } else {
+    // 차감 취소 → 포인트 돌려줌
+    state.praise += (h.fromPraise || 0);
+    state.wrestling += (h.fromWrestling || 0);
+    // fromPraise/fromWrestling 없는 옛 기록은 pointType 기준
+    if (!h.fromPraise && !h.fromWrestling) {
+      if (h.pointType === 'wrestling') state.wrestling += h.mins;
+      else state.praise += h.mins;
+    }
+  }
+  await saveState();
+  await deleteDoc(doc(db, 'bank', 'state', 'history', id));
 }
 
 // ── 할일 CRUD ─────────────────────────────────────
